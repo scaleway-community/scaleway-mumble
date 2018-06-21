@@ -1,0 +1,28 @@
+#!/bin/bash
+
+PASSWORD=$(cat /dev/urandom | head -c 100 | sha1sum | cut -d '-' -f1)
+
+PASSWORD="$PASSWORD" /usr/bin/expect <(cat << EOF
+spawn dpkg-reconfigure mumble-server -freadline
+expect "Autostart mumble-server on server boot?"
+send "yes\r"
+
+expect "Allow mumble-server to use higher priority?"
+send "yes\r"
+
+expect "Password to set on SuperUser account:"
+send "$::env(PASSWORD)\r"
+
+expect eof
+
+EOF
+)
+
+# Update server's configuration help
+sed -i "s/server_password/$PASSWORD/" /usr/share/doc/scaleway/mumble/README
+
+# Change server name
+sed -i "s/#registerName=Mumble Server/registerName=Mumble Server/" /etc/mumble-server.ini
+
+# Disable the service that ran this script, only need it once
+systemctl disable init-mumble

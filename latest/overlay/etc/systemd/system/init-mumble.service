@@ -1,0 +1,10 @@
+[Unit]
+Description=Create configuration at first boot for Mumble
+After=network.service
+
+[Service]
+ExecStart=/usr/local/sbin/scw-init-mumble
+Type=oneshot
+
+[Install]
+WantedBy=multi-user.target

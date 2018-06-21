@@ -1,0 +1,11 @@
+# Mumble usage
+
+Your Mumble server is ready!
+To connect to your server, enter in Mumble your server's IP:
+  server_ip
+
+Your SuperUser password is:
+  server_password
+
+For further configuration, consult the official Mumble documentation
+  https://wiki.mumble.info/wiki/Murmurguide
